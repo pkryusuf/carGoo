@@ -1,10 +1,19 @@
-import requests
-from requests.auth import HTTPBasicAuth
-method = "get"
-api_key ="yhGyEqQFdDxQgmIUqB2kmS2yiZdp0RsPOQccu0VUX5hrpyFEMW54jpakNqvZ26Fu7bnAAJnNh_J6g1p6Yb09zmyLcM0_eQHvlYkp0Ww566yyhU1DH63NTlk06pW0YXYx"
-url = "https://api.yelp.com/v3/businesses/search?location=NYC&categories=bars&open_now=true$limit=40&offset=40&key=yhGyEqQFdDxQgmIUqB2kmS2yiZdp0RsPOQccu0VUX5hrpyFEMW54jpakNqvZ26Fu7bnAAJnNh_J6g1p6Yb09zmyLcM0_eQHvlYkp0Ww566yyhU1DH63NTlk06pW0YXYx"
+import googlemaps
+from datetime import datetime
 
-headers = {'Authorization': 'Bearer {}'.format(api_key)}
-rsp = requests.request(method, url,headers={},data={})
+gmaps = googlemaps.Client(key='AIzaSyA02vq5et0wTVE_Sr9IZUNUtQc2rJxJYlM')
 
-print(rsp.text)
+# Geocoding an address
+geocode_result = gmaps.geocode('1600 Amphitheatre Parkway, Mountain View, CA')
+
+# Look up an address with reverse geocoding
+reverse_geocode_result = gmaps.reverse_geocode((40.714224, -73.961452))
+
+# Request directions via public transit
+now = datetime.now()
+directions_result = gmaps.directions("Sydney Town Hall",
+                                     "Parramatta, NSW",
+                                     mode="transit",
+                                     departure_time=now)
+print(geocode_result)
+print(directions_result)

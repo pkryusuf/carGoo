@@ -4,6 +4,7 @@ import dataBase
 from driver import Driver
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map
+import googlemaps
 
 app = Flask(__name__)
 dataBase = dataBase.DB()
@@ -12,7 +13,7 @@ app.config['GOOGLEMAPS_KEY'] = "AIzaSyA02vq5et0wTVE_Sr9IZUNUtQc2rJxJYlM"
 
 
 
-GoogleMaps(app, key="AIzaSyA02vq5et0wTVE_Sr9IZUNUtQc2rJxJYlM")
+GoogleMaps(app)
 
 @app.route('/login', methods=["GET", "POST"])
 def login():  # put application's code here
@@ -140,6 +141,7 @@ def mapview():
         ]
     )
     return render_template('map.html', mymap=mymap, sndmap=sndmap)
+
 
 if __name__ == '__main__':
     app.run()

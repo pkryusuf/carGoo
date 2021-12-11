@@ -1,30 +1,21 @@
 <!DOCTYPE html>
 <html>
   <head>
+      
     {{"decoupled-map"|googlemap_js(37.4419, -122.1419, markers=[(37.4419,
     -122.1419)])}} {{mymap.js}} {{sndmap.js}}
   </head>
   <body>
-    <h1>Flask Google Maps Example</h1>
-
-    <h2>Template function centered, no marker</h2>
-    {{googlemap("simple-map", 37.4419, -122.1419)}}
-
-    <h2>Template filter decoupled with single marker</h2>
-    {{"decoupled-map"|googlemap_html(37.4419, -122.1419)}}
-
-    <h2>Template function with multiple markers</h2>
-    {% with map=googlemap_obj("another-map", 37.4419, -122.1419,
-    markers=[(37.4419, -122.1419), (37.4300, -122.1400)]) %} {{map.html}}
-    {{map.js}} {% endwith %}
-
-    <h2>First map generated in view</h2>
-    {{mymap.html}}
+    
 
     <h2>Second map generated in view</h2>
     <h3>Example for different icons in multiple markers with infoboxes</h3>
     {{sndmap.html}}
     <br>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6018.644062585874!2d28.984017250045934!3d41.040086298465184!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab76f27dbbd07%3A0x31fb6fe7de705372!2sAc%C4%B1badem%20Taksim%20Hastanesi!5e0!3m2!1str!2str!4v1639250581040!5m2!1str!2str" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+ 
   </body>
+
+
+
 </html>
+

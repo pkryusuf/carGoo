@@ -5,6 +5,7 @@ from driver import Driver
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map
 import googlemaps
+import  cargoAPI
 
 app = Flask(__name__)
 dataBase = dataBase.DB()
@@ -112,35 +113,42 @@ def partnersignup():
 
 
 
-@app.route("/")
+@app.route("/mapview")
 def mapview():
     # creating a map in the view
     mymap = Map(
         identifier="view-side",
-        lat=37.4419,
-        lng=-122.1419,
-        markers=[(37.4419, -122.1419)]
+        lat=41.0370023,
+        lng=28.9850917,
+        markers=[(41.0370023, 28.9850917)]
     )
+    markers =[]
+    x = cargoAPI.xx()
+    for i in x:
+        markers.append({
+             'icon': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+             'lat': i[0],
+             'lng': i[1],
+             'infobox': "<b>Hello World</b>"
+          })
+    print(x)
     sndmap = Map(
         identifier="sndmap",
-        lat=37.4419,
-        lng=-122.1419,
-        markers=[
-          {
-             'icon': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
-             'lat': 37.4419,
-             'lng': -122.1419,
-             'infobox': "<b>Hello World</b>"
-          },
-          {
-             'icon': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
-             'lat': 37.4300,
-             'lng': -122.1400,
-             'infobox': "<b>Hello World from other place</b>"
-          }
-        ]
+        lat=41.0370023,
+        lng=28.9850917,
+
+        markers=markers
     )
     return render_template('map.html', mymap=mymap, sndmap=sndmap)
+
+@app.route("/s")
+def maptest():
+    return render_template("maptest.html")
+
+@app.route("/")
+def cargoselect():
+    colours = ['Red', 'Blue', 'Black', 'Orange']
+    return render_template("cargoselect.html",colours=colours)
 
 
 if __name__ == '__main__':

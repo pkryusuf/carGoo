@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Simple Polylines</title>
+    <style>
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+      #map {
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="map"></div>
+    <script>
+      
+      var encoded_poly = "pzvmEyr{y[jAFAr@Am@j@?fCRpCt@\Dd@Cn@Mh@QjA}@p@w@v@{Al@m@t@i@x@c@z@]|@W\I~AQn@CF@jAN`AFrG`AnATnB^|@T|Bt@b@Px@b@hAp@p@f@Sb@TN~AlAtBzBl@r@zBbDbB~BLLh@r@tApBbA|AtA`B|AtAjBxAzDdDfErDxB~B|AtBf@|@lAtCfBpEtAxDbAtDVlA^zB`@rCh@xCXhAXt@Lh@Lf@v@fD`@hBf@zBr@lCvA`Ef@bBd@pB\jBd@nCb@fCb@tCXnCFn@LxBBxAJjDFvB?nAOvDQhGMhCQxA_@bBi@vBu@pBc@hAgArBeAnBg@fA[~@w@zCK`@{A|Fq@zBw@xDQnAO|BEdD@hBNdCx@rG^hEBxA?|CIfBOxBWrBkAvF]~AOnAMnAKhBA`AF|AJjATlCb@rGJpAFpCArAEbBo@hIu@|FcAbF{AtG{BbJsCbMgCrJw@fDs@lC]|AUvAWbCSpHW~MKzC[hDUhB[fBgCrKmBlIqAfH_@rAk@tAa@`A[lAaAvEgArEeB`HqAzDcAbCwBzEu@jBaBhEk@rAUb@eBdC_B|BgB~CiAhBeAzAgAxAuBpCqBlCeAbBS^cAtBq@~Ae@tAQr@eAtFu@bEq@|FOxAQnAa@dCw@fHWpB[`Bo@vBaA`Ci@fAk@dA{@jAmDrDyElEmAhBe@bAo@`By@lBU\{@hAgC~BuA~A{@xAwAjCoChFiDpGgBdDYj@c@pA_A|CiBxE}@`Do@nCoAhGeBtIa@vBUvASrBM`BExAAnB@dBHxB\|DR`CNbCNlDHbC@dBCvBWrGMtBW~B{@jEM`Ay@lH[xDMhCOtFE`HDlHBlBHdBPjBZzBb@hCTjBNrBJbEAtBMhMKdOInGCtBEvBMdCO|AO~@Kn@c@pBOf@cAzCe@rAc@~@i@z@_AvAoA~AwAxAgA|@oBpAeC|Ao@XyD~BsQ`LsSlMcGxDiD`CcClBw@r@mAjAmIxI]TWNi@j@e@h@y@|@mBrB_BfByGnHqAvAuCvCgDhD}CxCuBzB}AnBmClD{B`Du@fAkAvBcArBgB~COl@{@xA{DhH_EpH}C~FqArB_CpE}@dBkC`FcCtEw@fAkAxAe@f@uAhAeAn@i@TuClAcBh@oFzAq@L_@FO?m@FaFNiDMeDYcE{@mCUgCAcDJkB`@oAd@_Aj@yA`AoCxBa@\{@`A]d@k@dAGLRNaB\ECU`AEXUdAUvAE^cAj@sCd@QLWNWDe@CyG_B";
+      
+      // This example creates a 2-pixel-wide red polyline showing the path of William
+      // Kingsford Smith's first trans-Pacific flight between Oakland, CA, and
+      // Brisbane, Australia.
+
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: {lat: -24.345, lng: 134.46},
+          mapTypeId: 'terrain'
+        });
+
+        var array_path = google.maps.geometry.encoding.decodePath(encoded_poly);
+        
+        var flightPath = new google.maps.Polyline({
+          path: array_path,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 3,
+          draggable:true
+        });
+
+        flightPath.setMap(map);
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?v=3&key=AIzaSyDztlrk_3CnzGHo7CFvLFqE_2bUKEq1JEU&libraries=geometry&callback=initMap">
+    </script>
+  </body>
+</html>

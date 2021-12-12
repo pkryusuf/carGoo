@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {{"decoupled-map"|googlemap_js(37.4419, -122.1419, markers=[(37.4419,
+    -122.1419)])}} {{mymap.js}} {{sndmap.js}}
+    
+    <style>
+
+
+        body {
+          background-image: url(/static/img/bg_slilder-1.jpg);
+          margin: 0px;
+          overflow: hidden;
+        }
+        h4 {
+          margin-top: 1em;
+          color: #eee;
+          font-size: 150%;
+          font-weight: 300;
+          text-align: center;
+          
+        }
+        
+        button {
+          display: inline;
+          background: #01A4E0;
+          color: #2184AC;
+          border: 0;
+          padding: 4px;
+        }
+        
+        input {
+            display: block;
+            width: 98%;
+            height: 30px; 
+            margin-top: 1.0em;
+            padding: 4px;
+            border-radius: 20px;
+        }
+        
+        .dropdown{
+          width: 235px;
+          height: 40px;
+          border-radius: 20px;
+        }
+        .login-box {
+            width: 25%;
+            height: 60%;
+            font-family: sans-serif;
+            left: 10%;
+            top: 35%;
+            position: absolute;
+            padding: 1%;
+            border-radius: 20px;
+            
+        }
+        
+        .outer-box {
+            display: block;
+            margin: auto;
+            background: #6f92dc;
+            border-radius: 5px;
+            width: 50%;
+            height: 20em;
+          height: auto;
+        }
+        
+        #btn-login {
+          display: block;
+          width: 100%;
+          height: 40px;
+          margin-top: 2.0em;
+          border-radius: 4px;
+          background-color: #3366cc;
+          color: #fff;
+        }
+        
+        
+        #btn-forgot {
+          display: block;
+          width: 100%;
+          margin-top: 1.0em;
+          border-radius: 2px;
+          color: #fff;
+          background-color: #000D36;
+        }
+        .konum{
+        padding-left: 60%;
+        padding-top: 13%;
+        
+      }
+        
+      
+       
+        
+    </style>
+</head>
+<body>
+
+    <div class="outer-box">
+        <div class="login-box">
+          <h2 style="color: white;">Distance {{result.distance}} KM</h2>
+          <h2  style="color: white;">Estimated time {{result.time}} Hours</h2>
+          <h2  style="color: white;">Estimated  gain {{result.coin}} GreenCoin</h2>
+          <form method="post">
+          <input type="submit" value="Next" style="width: 25%;">
+        </form>
+         
+        </div>
+      </div>
+      <div class="konum ">
+        {{sndmap.html}}
+        <br>
+      </div>
+      </body>
+    
+   
+
+   
+    
+</body>
+</html>

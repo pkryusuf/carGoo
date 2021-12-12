@@ -125,31 +125,49 @@ input[type=checkbox]:checked ~ div {
 <body>
   <section class="app">
     <i class="fa fa-rocket"></i>
-    <h1>Please choose which you want to carry</h1>
-    {% for item in cargos  %}
+    <h1>Please choose which cargo you want to carry</h1>
+
     <article class="feature1">
       <input type="checkbox" id="feature1"/>
       <div>
         <span>
-          {{item.volume}}<br/>
-         {{ item.ownerId}}
+          İstanbul - İzmit<br/>
+          General
         </span>
       </div>
     </article>
-{% endfor %}
-  
-    
-    <article class="feature4">
-      <input type="checkbox" id="feature4" checked/>
+    <article class="feature2">
+      <input type="checkbox" id="feature2"/>
       <div>
         <span>
-          Coffee<br/>
-          $1.00
+          Hatay - Ankara<br/>
+          Electronic
         </span>
       </div>
     </article>
     
-    <input type="submit" style="width: 40%;"  value="Next" >
+    <article class="feature3">
+      <input type="checkbox" id="feature3"/>
+      <div>
+        <span>
+          İzmir - Manisa<br/>
+          Food
+        </span>
+      </div>
+    </article>
+    
+    <article class="feature4">
+      <input type="checkbox" id="feature4" />
+      <div>
+        <span>
+          Adana - Bursa<br/>
+          General
+        </span>
+      </div>
+    </article>
+    <a href="/map">
+    <form method="post">
+    <input type="post"  style="width: 40%;"  value="Next" ></form></a>
           
     
     

@@ -1,12 +1,19 @@
-
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    {{"decoupled-map"|googlemap_js(37.4419, -122.1419, markers=[(37.4419,
+    -122.1419)])}} {{mymap.js}} {{sndmap.js}}
     <style>
+      .konum{
+        margin-left: 70%;
+      }
+    </style>
+    <style>
+
 
         body {
           background-image: linear-gradient(to right, #152744, #61D2B4);
@@ -38,17 +45,9 @@
             padding: 4px;
             border-radius: 20px;
         }
-        option{
-          display: block;
-            width: 98%;
-            height: 30px; 
-            margin-top: 1.0em;
-            padding: 4px;
-            border-radius: 20px;
-          
-        }
+        
         .dropdown{
-          width: 185px;
+          width: 235px;
           height: 40px;
           border-radius: 20px;
         }
@@ -56,14 +55,14 @@
             width: 25%;
             height: 60%;
             font-family: sans-serif;
-            left: 35%;
-             top: 20%;
+            left: 10%;
+            top: 35%;
             position: absolute;
             padding: 1%;
-            border-radius: 5px;
-
+            border-radius: 20px;
+            
         }
-
+        
         .outer-box {
             display: block;
             margin: auto;
@@ -73,7 +72,7 @@
             height: 20em;
           height: auto;
         }
-
+        
         #btn-login {
           display: block;
           width: 100%;
@@ -83,12 +82,8 @@
           background-color: #3366cc;
           color: #fff;
         }
-        .Cargo{
-          width: 400px;
-          height: 40px;
-          border-radius: 20px;
-        }
-
+        
+        
         #btn-forgot {
           display: block;
           width: 100%;
@@ -97,39 +92,45 @@
           color: #fff;
           background-color: #000D36;
         }
-            </style>
+        .cerceve{
+            width: 35%;
+            height: 70%;
+            font-family: sans-serif;
+            left: 50%;
+            top: 10%;
+            position: absolute;
+            padding: 1%;
+            border-style: groove;
+            border-color: black;
+            
+        }
+      
+       
+        
+    </style>
 </head>
 <body>
-  {% from "formhelpers.html" import render_field %}
-  <div class="outer-box">
-    <div class="login-box">
-      <h4 class="login-text">Please enter the shipping information</h4>
-      <center>
-        <form method="post">
-        <div class="form-group">
-									
-          {{ render_field(form.origin,placeholder="Origin")}}
+
+    <div class="outer-box">
+        <div class="login-box">
+          <input type="text" placeholder="Where" required>
+          <input type="text" placeholder="Type of Cargo" required>
+          <input type="submit" value="Next" style="width: 25%;">
+         
         </div>
-        <div class="form-group">
-									
-          {{ render_field(form.destination,placeholder="Destination")}}
-        </div>
-        <div class="form-group">
-									
-          {{ render_field(form.volume,placeholder="Volume")}}
-        </div>
-        <div class="form-group">
-									
-          {{ render_field(form.category,placeholder="Cargo category")}}
-        </div>
-        <a href="#about">
-      <input type="submit" style="width: 20%;"  value="Okay" ></a>
-    </form>
-      <br>
-      </center>
+      </div>
+      <div class="konum ">
+        <div class="outer-box">
+        
+        {{sndmap.html}}
+        <br>
+      </div>
+      </div>
+      </body>
+    
+    <div class="cerceve">   
     </div>
-  </div>
-  
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r67/three.min.js"></script>
 
 <script>
@@ -160,7 +161,7 @@
 
     scene = new THREE.Scene();
 
-    renderer = new THREE.CanvasRenderer({ alpha: true }); 
+    renderer = new THREE.CanvasRenderer({ alpha: true }); // gradient; this can be swapped for WebGLRenderer
     renderer.setSize( window.innerWidth, window.innerHeight );
     container.appendChild( renderer.domElement );
     
@@ -270,7 +271,6 @@
   
   }
 </script>
-</body>
-</html>
+    
 </body>
 </html>

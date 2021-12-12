@@ -1,5 +1,6 @@
 from functools import wraps
-
+import googlemaps
+from datetime import datetime
 from flask import Flask, render_template, request, session, redirect, url_for
 from flask_login import LoginManager
 from cargo import Cargo
@@ -142,6 +143,7 @@ def partner_signup():
 @app.route("/mapview")
 def mapview():
     # creating a map in the view
+
     mymap = Map(
         identifier="view-side",
         lat=41.0370023,
@@ -168,9 +170,72 @@ def mapview():
     return render_template('map.html', mymap=mymap, sndmap=sndmap)
 
 
-@app.route("/s")
-def maptest():
-    return render_template("maptest.html")
+@app.route("/map", methods=["GET", "POST"])
+def map():
+    gmaps = googlemaps.Client(key='AIzaSyA02vq5et0wTVE_Sr9IZUNUtQc2rJxJYlM')
+    geocode_result = gmaps.geocode('istanbul taksim')
+    now = datetime.now()
+    lat1 = geocode_result[0]["geometry"]["location"]["lat"]
+    lng1= geocode_result[0]["geometry"]["location"]["lng"]
+
+    geocode_result = gmaps.geocode('İzmit türkiye')
+    lat2 = geocode_result[0]["geometry"]["location"]["lat"]
+    lng2 = geocode_result[0]["geometry"]["location"]["lng"]
+
+    geocode_result = gmaps.geocode('yalova türkiye')
+    lat3 = geocode_result[0]["geometry"]["location"]["lat"]
+    lng3 = geocode_result[0]["geometry"]["location"]["lng"]
+
+
+    geocode_result = gmaps.geocode('bursa türkiye')
+    lat4 = geocode_result[0]["geometry"]["location"]["lat"]
+    lng4 = geocode_result[0]["geometry"]["location"]["lng"]
+
+
+    directions_result = gmaps.directions("Sydney Town Hall",
+                                         "Parramatta, NSW",
+
+                                         mode="transit",
+                                         departure_time=now)
+    mymap = Map(
+        identifier="view-side",
+        lat=37.4419,
+        lng=-122.1419,
+        markers=[(37.4419, -122.1419)]
+    )
+    sndmap = Map(
+        identifier="sndmap",
+        lat=lat3,
+        lng=lng3,
+        zoom=8,
+        markers=[
+            {
+                'icon': 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                'lat': lat1,
+                'lng': lng1,
+                'infobox': "<b>Starting Point</b>"
+            },
+            {
+                'icon': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                'lat': lat2,
+                'lng': lng2,
+                'infobox': "<b>Cargo Accept Point</b>"
+            },
+            {
+                'icon': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                'lat': lat3,
+                'lng': lng3,
+                'infobox': "<b>Cargo Delivery Point</b>"
+            },
+            {
+                'icon': 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                'lat': lat4,
+                'lng': lng4,
+                'infobox': "<b>Destination point</b>"
+            }
+        ]
+    )
+    return render_template('harita.html', mymap=mymap, sndmap=sndmap)
 
 
 @app.route("/cargoinput", methods=["GET", "POST"])
@@ -189,6 +254,7 @@ def cargo_input():
             category = form.category.data
 
             dataBase.add_cargo(Cargo(origin, destination, volume, category, session["ID"]))
+            return redirect(url_for("index"))
 
 
 
@@ -229,7 +295,7 @@ def driver_first_page():
             driverInfo = {"origin": origin, "destination": destination, "date": date, "chargingStatus": chargingStatus}
 
             print("ınfo", driverInfo)
-
+            return redirect(url_for("listcargos"))
         except Exception as e:
             print("Exception", e)
 
@@ -254,7 +320,11 @@ def profile():
 @app.route("/listcargos")
 def listcargos():
     cargos = dataBase.get_cargos()
+    if request.method == "POST":
+        print("POST MAP")
+        return redirect(url_for("map"))
     return render_template("list_cargos.html",cargos=cargos)
+
 
 
 if __name__ == '__main__':

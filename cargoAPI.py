@@ -11,11 +11,13 @@ reverse_geocode_result = gmaps.reverse_geocode((40.714224, -73.961452))
 
 # Request directions via public transit
 now = datetime.now()
-directions_result = gmaps.directions("Sydney Town Hall",
-                                     "Parramatta, NSW",
+directions_result = gmaps.directions("istanbul,taksim",
+                                     "izmir ,buca",
 
                                      mode="transit",
                                      departure_time=now)
+
+
 def decode_polyline(polyline_str):
     index, lat, lng = 0, 0, 0
     coordinates = []
@@ -31,7 +33,7 @@ def decode_polyline(polyline_str):
 
             while True:
                 byte = ord(polyline_str[index]) - 63
-                index+=1
+                index += 1
                 result |= (byte & 0x1f) << shift
                 shift += 5
                 if not byte >= 0x20:
@@ -49,8 +51,7 @@ def decode_polyline(polyline_str):
 
     return coordinates
 
-x = decode_polyline(directions_result[0]["overview_polyline"]["points"])
-def xx():
-    return decode_polyline(directions_result[0]["overview_polyline"]["points"])
-print(x)
-#print(directions_result[0]["overview_polyline"]["points"])
+
+print(geocode_result[0]["geometry"]["location"]["lat"])
+print(geocode_result[0]["geometry"]["location"]["lng"])
+print(directions_result)

@@ -1,5 +1,4 @@
-
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -7,122 +6,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-
-      body {
-        background-image: linear-gradient(to right, #152744, #61D2B4);
-        margin: 0px;
-        overflow: hidden;
-      }
-      h4 {
-        margin-top: 1em;
-        color: #eee;
-        font-size: 150%;
-        font-weight: 300;
-        text-align: center;
         
-      }
-      
-      button {
-        display: inline;
-        background: #01A4E0;
-        color: #2184AC;
-        border: 0;
-        padding: 4px;
-      }
-      
-      input {
-          display: block;
-          width: 98%;
-          height: 25px; 
-          margin-top: 1.0em;
-          padding: 4px;
-          border-radius: 20px;
-      }
-      
-      .login-box {
-          width: 25%;
-          height: 60%;
-          font-family: sans-serif;
-          left: 35%;
-           top: 0%;
-          position: absolute;
-          padding: 1%;
-          border-radius: 5px;
-          
-      }
-      
-      .outer-box {
-          display: block;
-          margin: auto;
-          background: #6f92dc;
-          border-radius: 5px;
-          width: 50%;
-          height: 20em;
-        height: auto;
-      }
-      
-      #btn-login {
-        display: block;
-        width: 100%;
-        height: 40px;
-        margin-top: 2.0em;
-        border-radius: 4px;
-        background-color: #3366cc;
-        color: #fff;
-      }
-      
-      #btn-forgot {
-        display: block;
-        width: 100%;
-        margin-top: 1.0em;
-        border-radius: 2px;
-        color: #fff;
-        background-color: #000D36;
-      }
-          </style>
+body {
+
+  
+  background-image: linear-gradient(to right, #152744, #61D2B4);
+  margin: 0px;
+  overflow: hidden;
+}
+
+h4 {
+  margin-top: 1em;
+  color: #eee;
+  font-size: 150%;
+  font-weight: 300;
+  text-align: center;
+}
+
+button {
+    
+  display: inline;
+  background: #01A4E0;
+  color: #2184AC;
+  border: 0;
+  padding: 4px;
+  
+}
+
+input {
+    border-radius: 20px;
+    display: block;
+    width: 98%;
+    height: 30px; 
+    margin-top: 1.0em;
+    padding: 4px;
+}
+
+.login-box {
+    width: 25%;
+    height: 60%;
+    font-family: sans-serif;
+    left: 35%;
+     top: 30%;
+    position: absolute;
+    padding: 1%;
+}
+
+.outer-box {
+    display: block;
+    margin: auto;
+    background: #6f92dc;
+    border-radius: 5px;
+    width: 50%;
+    height: 20em;
+  height: auto;
+}
+
+
+    </style>
 </head>
 <body>
-  <img src="/static/img/cangoo.png" style="width: 150px; margin-left: 10px;" >
-{% from "formhelpers.html" import render_field %}
-  <form method="post">
-  <div class="outer-box">
-    <div class="login-box">
-      <h4 class="login-text">Please enter the shipping information</h4>
-      <center>
-        <div class="form-group">
-									
-          {{ render_field(form.companyName,placeholder="company name")}}
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+       <div class="outer-box">
+        <div class="login-box">
+          <h4 class="login-text">Take Cargo</h4>
+          <center>
+          <input type="number" placeholder="Cargo Id Number" required>
+            
+          <input type="submit" style="width: 40%;"  value="Add more" >
+          <form method="post">
+          <input type="submit" style="width: 40%;"  value="Next" >
+        </form>
+          
+          
+          </center>
         </div>
-        <div class="form-group">
-									
-          {{ render_field(form.branchId,placeholder="Branch ID")}}
-        </div>
-        <div class="form-group">
-									
-          {{ render_field(form.city,placeholder="city")}}
-        </div>
-        <div class="form-group">
-									
-          {{ render_field(form.county,placeholder="county")}}
-        </div>
-        <div class="form-group">
-									
-          {{ render_field(form.location,placeholder="location")}}
-        </div>
-        <div class="form-group">
-									
-          {{ render_field(form.password,placeholder="password")}}
-        </div>
-      <input type="submit" style="width: 20%;"  value="Okey" >
-      
-    </form>
-    <input type="checkbox"> <a href="https://www.kvkk.gov.tr/Icerik/2050/Kisisel-Veriler" style="color: #61D2B4;"> Accept PDPL </a>
-      <br>
-      </center>
-    </div>
-  </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r67/three.min.js"></script>
+      </div>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r67/three.min.js"></script>
 
 <script>
   var mouseX = 0,
@@ -135,7 +97,7 @@
       camera,
       scene,
       renderer;
-
+  
   init();
   animate();
 
@@ -146,16 +108,16 @@
         amountX = 50,
         amountY = 50,
         particle;
-
+    
     container = document.createElement( 'div' );
     document.body.appendChild( container );
 
     scene = new THREE.Scene();
 
-    renderer = new THREE.CanvasRenderer({ alpha: true });
+    renderer = new THREE.CanvasRenderer({ alpha: true }); 
     renderer.setSize( window.innerWidth, window.innerHeight );
     container.appendChild( renderer.domElement );
-
+    
     camera = new THREE.PerspectiveCamera(
     	75,
       window.innerWidth / window.innerHeight,
@@ -173,7 +135,7 @@
         context.fill();
       }
     });
-
+    
     var geometry = new THREE.Geometry();
 
     for ( var i = 0; i < 100; i ++ ) {
@@ -188,18 +150,18 @@
       geometry.vertices.push( particle.position );
     }
 
-
+    // lines
     var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0xffffff, opacity: 0.5 } ) );
     scene.add( line );
 
-
+    // mousey
     document.addEventListener( 'mousemove', onDocumentMouseMove, false );
 		document.addEventListener( 'touchstart', onDocumentTouchStart, false );
     document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-
+		
  		window.addEventListener( 'resize', onWindowResize, false );
 
-	}
+	} // end init();
 
 	function onWindowResize() {
 
@@ -245,24 +207,22 @@
 	}
 
 	function animate() {
-
+    
 		requestAnimationFrame( animate );
     render();
-
+    
 	}
 
 	function render() {
-
+		
     camera.position.x += ( mouseX - camera.position.x ) * .05;
     camera.position.y += ( - mouseY + 200 - camera.position.y ) * .05;
     camera.lookAt( scene.position );
 
     renderer.render( scene, camera );
-
-
+    
+  
   }
 </script>
-</body>
-</html>
 </body>
 </html>

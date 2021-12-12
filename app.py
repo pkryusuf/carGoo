@@ -1,7 +1,7 @@
 from functools import wraps
 import googlemaps
 from datetime import datetime
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, session, redirect, url_for,flash
 from flask_login import LoginManager
 from cargo import Cargo
 from forms import *
@@ -172,9 +172,15 @@ def mapview():
 
 @app.route("/map", methods=["GET", "POST"])
 def map():
+    now = datetime.now()
     gmaps = googlemaps.Client(key='AIzaSyA02vq5et0wTVE_Sr9IZUNUtQc2rJxJYlM')
     geocode_result = gmaps.geocode('istanbul taksim')
-    now = datetime.now()
+    directions_result = gmaps.directions("istanbul,taksim",
+                                         "Bursa ,merkez",
+
+                                         mode="transit",
+                                         departure_time=now)
+
     lat1 = geocode_result[0]["geometry"]["location"]["lat"]
     lng1= geocode_result[0]["geometry"]["location"]["lng"]
 
@@ -192,11 +198,9 @@ def map():
     lng4 = geocode_result[0]["geometry"]["location"]["lng"]
 
 
-    directions_result = gmaps.directions("Sydney Town Hall",
-                                         "Parramatta, NSW",
 
-                                         mode="transit",
-                                         departure_time=now)
+
+    directions_result = {"distance":162,"time":2.2,"coin":(162*0.10 +2)}
     mymap = Map(
         identifier="view-side",
         lat=37.4419,
@@ -210,7 +214,7 @@ def map():
         zoom=8,
         markers=[
             {
-                'icon': 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                'icon': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
                 'lat': lat1,
                 'lng': lng1,
                 'infobox': "<b>Starting Point</b>"
@@ -235,7 +239,10 @@ def map():
             }
         ]
     )
-    return render_template('harita.html', mymap=mymap, sndmap=sndmap)
+    if request.method == "POST":
+        return redirect(url_for("takecargo"))
+    print(geocode_result)
+    return render_template('harita.html', mymap=mymap, sndmap=sndmap,result=directions_result)
 
 
 @app.route("/cargoinput", methods=["GET", "POST"])
@@ -269,6 +276,7 @@ def cargo_input():
 
 @app.route("/")
 def index():
+    flash("Mesajınız alındı", "success")
     return render_template("index.html")
 
 
@@ -317,7 +325,7 @@ def profile():
 
     return render_template("profile.html", driver)
 
-@app.route("/listcargos")
+@app.route("/listcargos", methods=["GET", "POST"])
 def listcargos():
     cargos = dataBase.get_cargos()
     if request.method == "POST":
@@ -325,7 +333,101 @@ def listcargos():
         return redirect(url_for("map"))
     return render_template("list_cargos.html",cargos=cargos)
 
+@app.route("/takecargo", methods=["GET", "POST"])
+def takecargo():
+    if request.method == "POST":
+        return redirect(url_for("map_next"))
+    return render_template("takingCargo.html")
 
+
+
+@app.route("/mapnext", methods=["GET", "POST"])
+def map_next():
+    if request.method == "POST":
+        pass
+    now = datetime.now()
+    gmaps = googlemaps.Client(key='AIzaSyA02vq5et0wTVE_Sr9IZUNUtQc2rJxJYlM')
+    geocode_result = gmaps.geocode('istanbul taksim')
+    directions_result = gmaps.directions("istanbul,taksim",
+                                         "Bursa ,merkez",
+
+                                         mode="transit",
+                                         departure_time=now)
+
+    lat1 = geocode_result[0]["geometry"]["location"]["lat"]
+    lng1= geocode_result[0]["geometry"]["location"]["lng"]
+
+    geocode_result = gmaps.geocode('İzmit türkiye')
+    lat2 = geocode_result[0]["geometry"]["location"]["lat"]
+    lng2 = geocode_result[0]["geometry"]["location"]["lng"]
+
+    geocode_result = gmaps.geocode('yalova türkiye')
+    lat3 = geocode_result[0]["geometry"]["location"]["lat"]
+    lng3 = geocode_result[0]["geometry"]["location"]["lng"]
+
+
+    geocode_result = gmaps.geocode('bursa türkiye')
+    lat4 = geocode_result[0]["geometry"]["location"]["lat"]
+    lng4 = geocode_result[0]["geometry"]["location"]["lng"]
+
+
+
+
+    directions_result = {"distance":133,"time":1.2,"coin":(162*0.10 +2)}
+    mymap = Map(
+        identifier="view-side",
+        lat=37.4419,
+        lng=-122.1419,
+        markers=[(37.4419, -122.1419)]
+    )
+    sndmap = Map(
+        identifier="sndmap",
+        lat=lat3,
+        lng=lng3,
+        zoom=8,
+        markers=[
+            {
+                'icon': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                'lat': lat1,
+                'lng': lng1,
+                'infobox': "<b>Starting Point</b>"
+            },
+            {
+                'icon': 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+                'lat': lat2,
+                'lng': lng2,
+                'infobox': "<b>Cargo Accept Point</b>"
+            },
+            {
+                'icon': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                'lat': lat3,
+                'lng': lng3,
+                'infobox': "<b>Cargo Delivery Point</b>"
+            },
+            {
+                'icon': 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                'lat': lat4,
+                'lng': lng4,
+                'infobox': "<b>Destination point</b>"
+            }
+        ]
+    )
+    if request.method == "POST":
+        return redirect(url_for("cargo_delivery"))
+    print(geocode_result)
+    return render_template('haritanext.html', mymap=mymap, sndmap=sndmap,result=directions_result)
+
+@app.route("/cargodelivery", methods=["GET", "POST"])
+def cargo_delivery():
+    if request.method == "POST":
+        return redirect(url_for("final_page"))
+    return render_template("deliverCargo.html")
+
+@app.route("/final", methods=["GET", "POST"])
+def final_page():
+    if request.method == "POST":
+        return redirect(url_for("index"))
+    return render_template("final.html")
 
 if __name__ == '__main__':
     app.run()

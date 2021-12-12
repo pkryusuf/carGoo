@@ -19,7 +19,7 @@ class DriverSignUpForm(Form):
     password = PasswordField("password", [validators.Length(min=1, max=25)])
     vehicle_brand = StringField("vehicle_brand", [validators.Length(min=1, max=25)])
     vehicle_model = StringField("vehicle_model", [validators.Length(min=1, max=25)])
-    vehicle_battery_health = StringField("vehicle_battery_health", [validators.Length(min=4, max=25)])
+    vehicle_battery_health = StringField("vehicle_battery_health", [validators.Length(min=1, max=4)])
 
 
 class LoginForm(Form):

@@ -7,16 +7,12 @@
     <title>Document</title>
     {{"decoupled-map"|googlemap_js(37.4419, -122.1419, markers=[(37.4419,
     -122.1419)])}} {{mymap.js}} {{sndmap.js}}
-    <style>
-      .konum{
-        margin-left: 70%;
-      }
-    </style>
+    
     <style>
 
 
         body {
-          background-image: linear-gradient(to right, #152744, #61D2B4);
+          background-image: url(/static/img/bg_slilder-1.jpg);
           margin: 0px;
           overflow: hidden;
         }
@@ -92,18 +88,12 @@
           color: #fff;
           background-color: #000D36;
         }
-        .cerceve{
-            width: 35%;
-            height: 70%;
-            font-family: sans-serif;
-            left: 50%;
-            top: 10%;
-            position: absolute;
-            padding: 1%;
-            border-style: groove;
-            border-color: black;
-            
-        }
+        .konum{
+        padding-left: 60%;
+        padding-top: 13%;
+        
+      }
+        
       
        
         
@@ -113,164 +103,24 @@
 
     <div class="outer-box">
         <div class="login-box">
-          <input type="text" placeholder="Where" required>
-          <input type="text" placeholder="Type of Cargo" required>
+          <h2 style="color: white;">Distance {{result.distance}} KM</h2>
+          <h2  style="color: white;">Estimated time {{result.time}} Hours</h2>
+          <h2  style="color: white;">Estimated  gain {{result.coin}} GreenCoin</h2>
+          <form method="post">
           <input type="submit" value="Next" style="width: 25%;">
+        </form>
          
         </div>
       </div>
       <div class="konum ">
-        <div class="outer-box">
-        
         {{sndmap.html}}
         <br>
       </div>
-      </div>
       </body>
     
-    <div class="cerceve">   
-    </div>
+   
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r67/three.min.js"></script>
-
-<script>
-  var mouseX = 0,
-      mouseY = 0,
-      windowHalfX = window.innerWidth / 2,
-      windowHalfY = window.innerHeight / 2,
-      SEPARATION = 200,
-      AMOUNTX = 10,
-      AMOUNTY = 10,
-      camera,
-      scene,
-      renderer;
-  
-  init();
-  animate();
-
-	function init() {
-
-  	var container,
-        separation = 100,
-        amountX = 50,
-        amountY = 50,
-        particle;
-    
-    container = document.createElement( 'div' );
-    document.body.appendChild( container );
-
-    scene = new THREE.Scene();
-
-    renderer = new THREE.CanvasRenderer({ alpha: true }); // gradient; this can be swapped for WebGLRenderer
-    renderer.setSize( window.innerWidth, window.innerHeight );
-    container.appendChild( renderer.domElement );
-    
-    camera = new THREE.PerspectiveCamera(
-    	75,
-      window.innerWidth / window.innerHeight,
-      1,
-      10000
-    );
-    camera.position.z = 100;
-
-    var PI2 = Math.PI * 2;
-    var material = new THREE.SpriteCanvasMaterial({
-    	color: 0xffffff,
-    	program: function ( context ) {
-				context.beginPath();
-        context.arc( 0, 0, 0.5, 0, PI2, true );
-        context.fill();
-      }
-    });
-    
-    var geometry = new THREE.Geometry();
-
-    for ( var i = 0; i < 100; i ++ ) {
-      particle = new THREE.Sprite( material );
-      particle.position.x = Math.random() * 2 - 1;
-      particle.position.y = Math.random() * 2 - 1;
-      particle.position.z = Math.random() * 2 - 1;
-      particle.position.normalize();
-      particle.position.multiplyScalar( Math.random() * 10 + 450 );
-      particle.scale.x = particle.scale.y = 10;
-      scene.add( particle );
-      geometry.vertices.push( particle.position );
-    }
-
-
-    var line = new THREE.Line( geometry, new THREE.LineBasicMaterial( { color: 0xffffff, opacity: 0.5 } ) );
-    scene.add( line );
-
-
-    document.addEventListener( 'mousemove', onDocumentMouseMove, false );
-		document.addEventListener( 'touchstart', onDocumentTouchStart, false );
-    document.addEventListener( 'touchmove', onDocumentTouchMove, false );
-		
- 		window.addEventListener( 'resize', onWindowResize, false );
-
-	}
-
-	function onWindowResize() {
-
-  	windowHalfX = window.innerWidth / 2;
-    windowHalfY = window.innerHeight / 2;
-
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-
-    renderer.setSize( window.innerWidth, window.innerHeight );
-
-	}
-
-	function onDocumentMouseMove(event) {
-
-  	mouseX = event.clientX - windowHalfX;
-    mouseY = event.clientY - windowHalfY;
-
-  }
-
-  function onDocumentTouchStart( event ) {
-
-		if ( event.touches.length > 1 ) {
-
-    	event.preventDefault();
-
-      mouseX = event.touches[ 0 ].pageX - windowHalfX;
-      mouseY = event.touches[ 0 ].pageY - windowHalfY;
-
-    }
-	}
-
-  function onDocumentTouchMove( event ) {
-
-  	if ( event.touches.length == 1 ) {
-
-    	event.preventDefault();
-
-      mouseX = event.touches[ 0 ].pageX - windowHalfX;
-      mouseY = event.touches[ 0 ].pageY - windowHalfY;
-
-		}
-	}
-
-	function animate() {
-    
-		requestAnimationFrame( animate );
-    render();
-    
-	}
-
-	function render() {
-		
-    camera.position.x += ( mouseX - camera.position.x ) * .05;
-    camera.position.y += ( - mouseY + 200 - camera.position.y ) * .05;
-    camera.lookAt( scene.position );
-
-    renderer.render( scene, camera );
-    
-  
-  }
-</script>
+   
     
 </body>
 </html>

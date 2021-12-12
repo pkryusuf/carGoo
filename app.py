@@ -1,7 +1,7 @@
 from functools import wraps
 import googlemaps
 from datetime import datetime
-from flask import Flask, render_template, request, session, redirect, url_for,flash
+from flask import Flask, render_template, request, session, redirect, url_for, flash
 from flask_login import LoginManager
 from cargo import Cargo
 from forms import *
@@ -43,7 +43,7 @@ def login():  # put application's code here
                 session["logged_in"] = True
                 session["ID"] = ID
                 return render_template("cargoinput.html")
-            elif dataBase.confirm_driver_login(ID,password):
+            elif dataBase.confirm_driver_login(ID, password):
                 print("ELİF")
                 session["type"] = "driver"
                 session["ID"] = ID
@@ -180,9 +180,9 @@ def map():
 
                                          mode="transit",
                                          departure_time=now)
-
+    # these attiributes can store in an array
     lat1 = geocode_result[0]["geometry"]["location"]["lat"]
-    lng1= geocode_result[0]["geometry"]["location"]["lng"]
+    lng1 = geocode_result[0]["geometry"]["location"]["lng"]
 
     geocode_result = gmaps.geocode('İzmit türkiye')
     lat2 = geocode_result[0]["geometry"]["location"]["lat"]
@@ -192,15 +192,12 @@ def map():
     lat3 = geocode_result[0]["geometry"]["location"]["lat"]
     lng3 = geocode_result[0]["geometry"]["location"]["lng"]
 
-
     geocode_result = gmaps.geocode('bursa türkiye')
     lat4 = geocode_result[0]["geometry"]["location"]["lat"]
     lng4 = geocode_result[0]["geometry"]["location"]["lng"]
 
-
-
-
-    directions_result = {"distance":162,"time":2.2,"coin":(162*0.10 +2)}
+    directions_result = {"distance": 162, "time": 2.2, "coin": (162 * 0.10 + 2)}
+    # marker pointing procees can do in for loop
     mymap = Map(
         identifier="view-side",
         lat=37.4419,
@@ -242,7 +239,7 @@ def map():
     if request.method == "POST":
         return redirect(url_for("takecargo"))
     print(geocode_result)
-    return render_template('harita.html', mymap=mymap, sndmap=sndmap,result=directions_result)
+    return render_template('harita.html', mymap=mymap, sndmap=sndmap, result=directions_result)
 
 
 @app.route("/cargoinput", methods=["GET", "POST"])
@@ -276,7 +273,8 @@ def cargo_input():
 
 @app.route("/")
 def index():
-    flash("Mesajınız alındı", "success")
+    # flash messages will use in next versions
+    # flash("Mesajınız alındı", "success")
     return render_template("index.html")
 
 
@@ -298,8 +296,6 @@ def driver_first_page():
             date = form.date.data
             chargingStatus = form.chargingStatus.data
 
-            # TODO kargo ekranı
-
             driverInfo = {"origin": origin, "destination": destination, "date": date, "chargingStatus": chargingStatus}
 
             print("ınfo", driverInfo)
@@ -318,20 +314,21 @@ def profile():
             return redirect(url_for("login"))
     except Exception as e:
         return redirect(url_for("login"))
-    print("sessionid", session["ID"])
+
     driver = dataBase.find_driver_with_id(session["ID"])
     if not driver:
         return redirect(url_for("login"))
 
     return render_template("profile.html", driver)
 
+
 @app.route("/listcargos", methods=["GET", "POST"])
 def listcargos():
     cargos = dataBase.get_cargos()
     if request.method == "POST":
-        print("POST MAP")
         return redirect(url_for("map"))
-    return render_template("list_cargos.html",cargos=cargos)
+    return render_template("list_cargos.html", cargos=cargos)
+
 
 @app.route("/takecargo", methods=["GET", "POST"])
 def takecargo():
@@ -340,9 +337,9 @@ def takecargo():
     return render_template("takingCargo.html")
 
 
-
 @app.route("/mapnext", methods=["GET", "POST"])
 def map_next():
+    # these map drawing methods will be simplified and in next version we use one mapdrawing funtion with argument
     if request.method == "POST":
         pass
     now = datetime.now()
@@ -355,7 +352,7 @@ def map_next():
                                          departure_time=now)
 
     lat1 = geocode_result[0]["geometry"]["location"]["lat"]
-    lng1= geocode_result[0]["geometry"]["location"]["lng"]
+    lng1 = geocode_result[0]["geometry"]["location"]["lng"]
 
     geocode_result = gmaps.geocode('İzmit türkiye')
     lat2 = geocode_result[0]["geometry"]["location"]["lat"]
@@ -365,15 +362,11 @@ def map_next():
     lat3 = geocode_result[0]["geometry"]["location"]["lat"]
     lng3 = geocode_result[0]["geometry"]["location"]["lng"]
 
-
     geocode_result = gmaps.geocode('bursa türkiye')
     lat4 = geocode_result[0]["geometry"]["location"]["lat"]
     lng4 = geocode_result[0]["geometry"]["location"]["lng"]
 
-
-
-
-    directions_result = {"distance":133,"time":1.2,"coin":(162*0.10 +2)}
+    directions_result = {"distance": 133, "time": 1.2, "coin": (162 * 0.10 + 2)}
     mymap = Map(
         identifier="view-side",
         lat=37.4419,
@@ -415,7 +408,8 @@ def map_next():
     if request.method == "POST":
         return redirect(url_for("cargo_delivery"))
     print(geocode_result)
-    return render_template('haritanext.html', mymap=mymap, sndmap=sndmap,result=directions_result)
+    return render_template('haritanext.html', mymap=mymap, sndmap=sndmap, result=directions_result)
+
 
 @app.route("/cargodelivery", methods=["GET", "POST"])
 def cargo_delivery():
@@ -423,11 +417,13 @@ def cargo_delivery():
         return redirect(url_for("final_page"))
     return render_template("deliverCargo.html")
 
+
 @app.route("/final", methods=["GET", "POST"])
 def final_page():
     if request.method == "POST":
         return redirect(url_for("index"))
     return render_template("final.html")
+
 
 if __name__ == '__main__':
     app.run()

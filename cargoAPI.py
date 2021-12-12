@@ -1,3 +1,4 @@
+# this class is only for testing Google Maps api
 import googlemaps
 from datetime import datetime
 

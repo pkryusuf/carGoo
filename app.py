@@ -9,18 +9,14 @@ from driver import Driver
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map
 import googlemaps
-import  cargoAPI
+import cargoAPI
 
 app = Flask(__name__)
-app.secret_key="supersecretkey"
+app.secret_key = "supersecretkey"
 dataBase = dataBase.DB()
 app.config['GOOGLEMAPS_KEY'] = "AIzaSyA02vq5et0wTVE_Sr9IZUNUtQc2rJxJYlM"
 
-
-
-
 GoogleMaps(app)
-
 
 
 @app.route('/login', methods=["GET", "POST"])
@@ -32,9 +28,11 @@ def login():  # put application's code here
         try:
             ID = form.ID.data
             password = form.password.data
-            print(ID,"ID")
+            print(ID, "ID")
             if ID[0].isdigit():
+                dataBase.confirm_driver_login(ID, password)
                 session["type"] = "driver"
+                session["ID"] = ID
                 print("driver")
             else:
                 print("partner")
@@ -43,19 +41,27 @@ def login():  # put application's code here
             if dataBase.confirm_partner_login(ID, password):
                 session["logged_in"] = True
                 session["ID"] = ID
+                return render_template("cargoinput.html")
+            elif dataBase.confirm_driver_login(ID,password):
+                print("ELİF")
+                session["type"] = "driver"
+                session["ID"] = ID
+                session["logged_in"] = True
+                return redirect(url_for("driver_first_page"))
             else:
                 session["logged_in"] = False
 
-            print(session["logged_in"],session["type"])
-
-
+            print(session["logged_in"], session["type"])
 
 
 
         except Exception as e:
             print("Exception", e)
-    if session["type"] == "driver":
-        return render_template()
+    try:
+        if session["type"] == "driver":
+            return render_template()
+    except Exception as e:
+        return render_template("login.html", form=form)
     return render_template("login.html", form=form)
 
 
@@ -81,10 +87,16 @@ def driver_sign_up():
             alreadySignIN = dataBase.confirm_driver_login(ID, password)
 
             if not alreadySignIN:
-                dataBase.create_driver(Driver(ID,driving_licence,first_name,
-                                              last_name,birth_day,phone_number,
-                                              address,vehicle_brand,vehicle_model,
-                                              vehicle_battery_health,password))
+                dataBase.create_driver(Driver(ID, driving_licence, first_name,
+                                              last_name, birth_day, phone_number,
+                                              address, vehicle_brand, vehicle_model,
+                                              vehicle_battery_health, password))
+                session["logged_in"] = True
+                session["type"] = "driver"
+                session["ID"] = ID
+                return redirect(url_for("driver_first_page"))
+
+
 
 
 
@@ -105,7 +117,7 @@ def partner_signup():
         # TODO already signin alert
 
         try:
-            companyName =  form.companyName.data
+            companyName = form.companyName.data
             branchId = form.branchId.data
             city = form.city.data
             county = form.county.data
@@ -116,7 +128,7 @@ def partner_signup():
             alreadySignIN = dataBase.confirm_partner_login(branchId, password)
 
             if not alreadySignIN:
-                dataBase.create_partner(companyName,location,city,county,password,(companyName+"-"+branchId))
+                dataBase.create_partner(companyName, location, city, county, password, (companyName + "-" + branchId))
             else:
                 return redirect(url_for("/partnersignup"))
 
@@ -124,8 +136,7 @@ def partner_signup():
         except Exception as e:
             print("Exception", e)
 
-    return render_template("cargoinput.html", form=form)
-
+    return render_template("partnersignup.html", form=form)
 
 
 @app.route("/mapview")
@@ -137,15 +148,15 @@ def mapview():
         lng=28.9850917,
         markers=[(41.0370023, 28.9850917)]
     )
-    markers =[]
+    markers = []
     x = cargoAPI.xx()
     for i in x:
         markers.append({
-             'icon': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
-             'lat': i[0],
-             'lng': i[1],
-             'infobox': "<b>Hello World</b>"
-          })
+            'icon': 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+            'lat': i[0],
+            'lng': i[1],
+            'infobox': "<b>Hello World</b>"
+        })
     print(x)
     sndmap = Map(
         identifier="sndmap",
@@ -156,23 +167,20 @@ def mapview():
     )
     return render_template('map.html', mymap=mymap, sndmap=sndmap)
 
+
 @app.route("/s")
 def maptest():
     return render_template("maptest.html")
 
 
-@app.route("/cargoinput",methods=["GET", "POST"])
+@app.route("/cargoinput", methods=["GET", "POST"])
 def cargo_input():
-
     if not session["logged_in"]:
         return redirect(url_for("login"))
 
     form = CargoInputForm(request.form)
 
-
-
     if request.method == "POST":
-
 
         try:
             origin = form.origin.data
@@ -180,7 +188,7 @@ def cargo_input():
             volume = form.volume.data
             category = form.category.data
 
-            dataBase.add_cargo(Cargo(origin,destination,volume,category,session["ID"]))
+            dataBase.add_cargo(Cargo(origin, destination, volume, category, session["ID"]))
 
 
 
@@ -192,9 +200,62 @@ def cargo_input():
             print("Exception", e)
     return render_template('cargoinput.html', form=form)
 
+
 @app.route("/")
 def index():
     return render_template("index.html")
+
+
+@app.route("/driverfirstpage", methods=["GET", "POST"])
+def driver_first_page():
+    try:
+        if not session["logged_in"]:
+            return redirect(url_for("login"))
+    except Exception as e:
+        return redirect(url_for("login"))
+
+    form = DriverDestinationForm(request.form)
+
+    if request.method == "POST":
+
+        try:
+            origin = form.origin.data
+            destination = form.destination.data
+            date = form.date.data
+            chargingStatus = form.chargingStatus.data
+
+            # TODO kargo ekranı
+
+            driverInfo = {"origin": origin, "destination": destination, "date": date, "chargingStatus": chargingStatus}
+
+            print("ınfo", driverInfo)
+
+        except Exception as e:
+            print("Exception", e)
+
+    return render_template('driver_first_page.html', form=form)
+
+
+@app.route("/profile")
+def profile():
+    try:
+        if not session["logged_in"] or session["type"] != "driver":
+            session["logged_in"] = False
+            return redirect(url_for("login"))
+    except Exception as e:
+        return redirect(url_for("login"))
+    print("sessionid", session["ID"])
+    driver = dataBase.find_driver_with_id(session["ID"])
+    if not driver:
+        return redirect(url_for("login"))
+
+    return render_template("profile.html", driver)
+
+@app.route("/listcargos")
+def listcargos():
+    cargos = dataBase.get_cargos()
+    return render_template("list_cargos.html",cargos=cargos)
+
 
 if __name__ == '__main__':
     app.run()

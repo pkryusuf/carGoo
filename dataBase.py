@@ -70,11 +70,18 @@ class DB:
 
         _ = self.cargoscol.insert_one(mydict)
 
+    def find_driver_with_id(self,ID):
+        user = self.driversscol.find({"driverId": ID})
+        if len(list(user)) != 0:
+            return user[0]
+        else:
+            return False
+
 
 
 
 if __name__ == "__main__":
     # DB().create_partner("123","brancj","ddddddd","ccccccc","xxxx","0000")
     # print(DB().confirm_partner_login("0000", "xxxx"))
-    #print(DB().confirm_driver_login("0000d", "asdasdasdasd"))
-    DB().get_cargos()
+    print(DB().confirm_driver_login("123456789", "asdasdasd"))
+    #DB().find_driver_with_id("0000d")

@@ -107,29 +107,44 @@
             text-indent: -1000px;
             width: 100px;
             height: 100px;
+            
              
-            background-image: url(img/profile.png);
+           
             border-radius: 50px;
             }
               </style>
   </head>
   <body>
     
-    <a href="file:///E:/onedrive/OneDrive%20-%20Manisa%20Celal%20Bayar%20%C3%9Cniversitesi/Desktop/canvas/profile.html">
-      <div id="resim-kose"></div>
-  </a>  
-
+    <a href="/profile">
+      <div id="resim-kose" ><input type="submit"  value="Profile" >  </div></a>
+    
+{% from "formhelpers.html" import render_field %}
     <div class="outer-box">
+      <form method="post">
       <div class="login-box">
         <h4 class="login-text">Please enter the shipping information</h4>
         <center>
 
-          <input type="text" placeholder="Origin">
-          <input type="text" placeholder="Destination">
-          <input type="date" placeholder="date" required>
+          <div class="form-group">
+
+            {{ render_field(form.origin,placeholder="Branch ID")}}
+          </div>
+          <div class="form-group">
+
+            {{ render_field(form.destination,placeholder="Branch ID")}}
+          </div>
+          <div class="form-group">
+
+            {{ render_field(form.date,placeholder="Branch ID")}}
+          </div>
           <br>
-          <input type="number" placeholder="Charging Status" required>
+          <div class="form-group">
+
+            {{ render_field(form.chargingStatus,placeholder="Branch ID")}}
+          </div>
           <input type="submit" style="width: 20%;"  value="Next" >
+        </form>
         <br>
         
       </div>

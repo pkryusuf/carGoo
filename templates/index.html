@@ -18,7 +18,22 @@
             text-align: center;
             
         }
-
+        .holder1 {
+        display: inline;
+        }
+        .holder1 img {
+        max-height: 200px;
+        max-width: 200px;
+        object-fit: cover;
+        }
+        .holder {
+        display: inline;
+        }
+        .holder img {
+        max-height: 300px;
+        max-width: 300px;
+        object-fit: cover;
+        }
     </style>
 
     <!-- =============== Bootstrap Core CSS =============== -->
@@ -62,7 +77,8 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="#"><img src="/static/img/cangoo.jfif" alt="Logo">
+                    <a class="holder" href="#"><img src="/static/img/cangoo.png" alt="Logo">
+                    
                     </a>
                 </div>
 
@@ -120,7 +136,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-5 col-md-3 wow fadeInLeft animated" data-wow-delay=".5s">
                     <h1 style="color:coral;"> How does </h1>
-                    <h1 style="color: rgb(116, 197, 36);">carGoo</h1>
+                    <a class="holder1" href="#"><img src="/static/img/cangooYesil.png" alt="Logo"></a>
                     <h1 style="color:coral;"> work? </h1>
                   </div>
                   <div class="col-xs-12 col-sm-7 col-md-9 wow fadeInRight animated" data-wow-delay=".5s">
@@ -206,7 +222,7 @@
           </div>
 
         </div>
-        <div class="row">
+        <div class="row" style="padding-bottom: 20%;">
         <div class="col-xs-2 col-sm-2 col-md-2 wow fadeInLeft animated" data-wow-delay=".7s">
                 <i class="fa fa-users iconfont2"></i>
           </div>

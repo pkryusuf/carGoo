@@ -1,6 +1,6 @@
 
 
-from wtforms import Form, BooleanField, StringField, PasswordField, validators,TextAreaField
+from wtforms import Form, BooleanField, StringField, PasswordField, validators,TextAreaField,DateField
 
 
 
@@ -30,6 +30,7 @@ class LoginForm(Form):
 
 
 class CompanySignInForm(Form):
+
     companyName = StringField("companyName", [validators.Length(min=4, max=25)])
     branchId = StringField("BranchId", [validators.Length(min=4, max=25)])
     city = StringField("city", [validators.Length(min=4, max=25)])
@@ -42,3 +43,9 @@ class CargoInputForm(Form):
     destination = StringField("destination", [validators.Length(min=4, max=25)])
     volume =  StringField("city", [validators.Length(min=4, max=25)])
     category = StringField("category", [validators.Length(min=4, max=25)])
+
+class DriverDestinationForm(Form):
+    origin = StringField("origin", [validators.Length(min=4, max=25)])
+    destination = StringField("destination", [validators.Length(min=4, max=25)])
+    date = DateField("date")
+    chargingStatus = StringField("destination", [validators.Length(min=4, max=25)])

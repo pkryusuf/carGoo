@@ -35,5 +35,10 @@ class CompanySignInForm(Form):
     city = StringField("city", [validators.Length(min=4, max=25)])
     county = StringField("county", [validators.Length(min=4, max=25)])
     location = StringField("location", [validators.Length(min=4, max=25)])
-    branchPin = StringField("branchPin", [validators.Length(min=4, max=25)])
     password = StringField("password", [validators.Length(min=4, max=25)])
+
+class CargoInputForm(Form):
+    origin = StringField("origin", [validators.Length(min=4, max=25)])
+    destination = StringField("destination", [validators.Length(min=4, max=25)])
+    volume =  StringField("city", [validators.Length(min=4, max=25)])
+    category = StringField("category", [validators.Length(min=4, max=25)])

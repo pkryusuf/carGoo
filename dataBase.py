@@ -12,6 +12,10 @@ class DB:
         self.driversscol = self.driverdb["drivers"]
         self.nods = self.myclient["noddb"]
         self.nodsscol = self.driverdb["nod"]
+        self.locationsscol = self.driverdb["locations"]
+        self.cargosdb = self.myclient["cargodb"]
+        self.cargoscol = self.cargosdb["cargos"]
+
 
     def create_partner(self, partnerBranchName, partnerLocation, partnerProvince, partnerDistrict, partnerPassword,
                        partnerID):
@@ -19,6 +23,7 @@ class DB:
                   "partnerProvince": partnerProvince, "partnerDistrict": partnerDistrict,
                   "partnerPassword": partnerPassword}
 
+        print(mydict)
         _ = self.partnerscol.insert_one(mydict)
 
     def create_driver(self, driver):
@@ -31,6 +36,7 @@ class DB:
 
     def find_partner(self):
         print(self.partnerscol.find_one())
+
 
     def confirm_partner_login(self, ID, password):
         user = self.partnerscol.find({"partnerID": ID, "partnerPassword": password})
@@ -51,8 +57,24 @@ class DB:
     def create_node(self, name, lat, len):
         pass
 
+    def get_location(self):
+        return self.locationsscol.find()
+
+    def get_cargos(self):
+        return self.cargoscol.find()
+
+    def add_cargo(self,cargo):
+        mydict = {"origin": cargo.origin, "destination": cargo.destination, "volume": cargo.volume,
+                  "ownerId": cargo.ownerId, "driverId": cargo.driverId
+                  }
+
+        _ = self.cargoscol.insert_one(mydict)
+
+
+
 
 if __name__ == "__main__":
     # DB().create_partner("123","brancj","ddddddd","ccccccc","xxxx","0000")
     # print(DB().confirm_partner_login("0000", "xxxx"))
-    print(DB().confirm_driver_login("0000d", "asdasdasdasd"))
+    #print(DB().confirm_driver_login("0000d", "asdasdasdasd"))
+    DB().get_cargos()

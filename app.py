@@ -1,4 +1,8 @@
-from flask import Flask, render_template, request
+from functools import wraps
+
+from flask import Flask, render_template, request, session, redirect, url_for
+from flask_login import LoginManager
+from cargo import Cargo
 from forms import *
 import dataBase
 from driver import Driver
@@ -8,6 +12,7 @@ import googlemaps
 import  cargoAPI
 
 app = Flask(__name__)
+app.secret_key="supersecretkey"
 dataBase = dataBase.DB()
 app.config['GOOGLEMAPS_KEY'] = "AIzaSyA02vq5et0wTVE_Sr9IZUNUtQc2rJxJYlM"
 
@@ -15,6 +20,8 @@ app.config['GOOGLEMAPS_KEY'] = "AIzaSyA02vq5et0wTVE_Sr9IZUNUtQc2rJxJYlM"
 
 
 GoogleMaps(app)
+
+
 
 @app.route('/login', methods=["GET", "POST"])
 def login():  # put application's code here
@@ -27,12 +34,19 @@ def login():  # put application's code here
             password = form.password.data
             print(ID,"ID")
             if ID[0].isdigit():
+                session["type"] = "driver"
                 print("driver")
             else:
                 print("partner")
+                session["type"] = "partner"
 
-            print("is logged in ", dataBase.confirm_partner_login(ID, password))
+            if dataBase.confirm_partner_login(ID, password):
+                session["logged_in"] = True
+                session["ID"] = ID
+            else:
+                session["logged_in"] = False
 
+            print(session["logged_in"],session["type"])
 
 
 
@@ -40,7 +54,8 @@ def login():  # put application's code here
 
         except Exception as e:
             print("Exception", e)
-
+    if session["type"] == "driver":
+        return render_template()
     return render_template("login.html", form=form)
 
 
@@ -82,7 +97,7 @@ def driver_sign_up():
 
 
 @app.route('/partnersignup', methods=["GET", "POST"])
-def partnersignup():
+def partner_signup():
     form = CompanySignInForm(request.form)
 
     if request.method == "POST":
@@ -90,7 +105,7 @@ def partnersignup():
         # TODO already signin alert
 
         try:
-            companyName = form.companyName.data
+            companyName =  form.companyName.data
             branchId = form.branchId.data
             city = form.city.data
             county = form.county.data
@@ -99,17 +114,17 @@ def partnersignup():
             password = form.password.data
 
             alreadySignIN = dataBase.confirm_partner_login(branchId, password)
-            print(branchId,city)
+
             if not alreadySignIN:
                 dataBase.create_partner(companyName,location,city,county,password,(companyName+"-"+branchId))
             else:
-                print("old user")
+                return redirect(url_for("/partnersignup"))
 
 
         except Exception as e:
             print("Exception", e)
 
-    return render_template("partnersignup.html", form=form)
+    return render_template("cargoinput.html", form=form)
 
 
 
@@ -145,11 +160,41 @@ def mapview():
 def maptest():
     return render_template("maptest.html")
 
-@app.route("/")
-def cargoselect():
-    colours = ['Red', 'Blue', 'Black', 'Orange']
-    return render_template("cargoselect.html",colours=colours)
 
+@app.route("/cargoinput",methods=["GET", "POST"])
+def cargo_input():
+
+    if not session["logged_in"]:
+        return redirect(url_for("login"))
+
+    form = CargoInputForm(request.form)
+
+
+
+    if request.method == "POST":
+
+
+        try:
+            origin = form.origin.data
+            destination = form.destination.data
+            volume = form.volume.data
+            category = form.category.data
+
+            dataBase.add_cargo(Cargo(origin,destination,volume,category,session["ID"]))
+
+
+
+
+
+
+
+        except Exception as e:
+            print("Exception", e)
+    return render_template('cargoinput.html', form=form)
+
+@app.route("/")
+def index():
+    return render_template("index.html")
 
 if __name__ == '__main__':
     app.run()

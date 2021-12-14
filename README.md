@@ -2,8 +2,10 @@
   <img src="https://raw.githubusercontent.com/biz-meFutures/carGoo/master/static/img/cangooYesil.png" width=200 />
 </p>
 
+                                      Less carbon, more carGoo 
 
-                                                     Less carbon, more carGoo
+
+                                                 
 
 carGoo is a project created to counter the high amount of carbon dioxide created by cargo companies through large distribution networks.
 

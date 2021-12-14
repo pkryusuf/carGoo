@@ -1,7 +1,9 @@
-​																						   <img src="https://raw.githubusercontent.com/biz-meFutures/carGoo/master/static/img/cangooYesil.png" alt="Logo" style="zoom:25%;" />
+<p align="center">
+  <img src="https://raw.githubusercontent.com/biz-meFutures/carGoo/master/static/img/cangooYesil.png" width=200 />
+</p>
 
 
-                    						  Less carbon, more carGoo
+                                                     Less carbon, more carGoo
 
 carGoo is a project created to counter the high amount of carbon dioxide created by cargo companies through large distribution networks.
 
@@ -61,7 +63,7 @@ We are a dynamic team that comes together with the motto of sustainability and i
 
 ## Team
 
-- [Yusuf Burak Peker](https://www.github.com/pkryusuf)
+- [Yusuf Burak Peker](https://www.github.com/pkryusuf)   
 - [İsmail Tosun](https://www.github.com/IsmailTosunTnyl)
 - [Zafer Say](https://github.com/zafers-say)
 - [Mehmet Emre Yılmaz](https://github.com/)

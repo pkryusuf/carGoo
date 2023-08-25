@@ -1,6 +1,9 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/biz-meFutures/carGoo/master/static/img/cangooYesil.png" width=200 />
 </p>
+<p align="center">
+  <img src="https://github.com/pkryusuf/carGoo/assets/59265931/90d165f3-08b4-43f7-9655-c615efeee591" width=200 />
+</p>
 ![Screenshot_2](https://github.com/pkryusuf/carGoo/assets/59265931/90d165f3-08b4-43f7-9655-c615efeee591)
 
                                             Less carbon, more carGoo 
